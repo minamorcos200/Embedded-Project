@@ -1,0 +1,45 @@
+void delayLCD(int n){
+    int i , j ;
+	for( i=0;i<n;i++) {
+		for(j=0;j<3180;j++){
+		}
+	}
+}
+
+int main(void)
+ {
+     initializationLCD();
+  
+        LCD_cmd(0X30);  //wake up call
+        //udelay(40);
+        delayLCD(10);
+        LCD_cmd(0X38);  //8-bit bus mode, 2 line display mode, 5x8 dots display mode
+        delayLCD(40);
+        LCD_cmd(0X01);  //clear display
+        delayLCD(40);
+        //udelay(40);
+        LCD_cmd(0X0F);  //diplay is on
+        delayLCD(40);
+        LCD_cmd(0X80);  //First line
+
+				 dataLCD('G');
+				 delayLCD(500);
+				 dataLCD('O');
+         delayLCD(100);
+         dataLCD('O');
+         delayLCD(100);
+         dataLCD('D');
+         delayLCD(100);
+         dataLCD(' ');
+         delayLCD(100);
+         dataLCD('W');
+         delayLCD(100);
+         dataLCD('O');
+         delayLCD(100);
+         dataLCD('R');
+         delayLCD(100);
+         dataLCD('K');
+         delayLCD(100);
+         dataLCD('!');
+       
+}

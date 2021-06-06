@@ -1,0 +1,12 @@
+float distanceBetweenEarthCoordinates(latit_1,longi_1,latit_2,longi_2){
+    int earthRadiusKm = 6371;
+	float dlat= degreesToRadians(latit_2-latit_1);
+	float dlon= degreesToRadians(longi_2-longi_1);
+	float lat_1 = degreesToRadians(latit_1);
+	float lat_2 = degreesToRadians(latit_2);
+ 	float a = sin(dlat/2)* sin(dlat/2) + 
+            sin(dlon/2)* sin(dlon/2) * cos(lat_1) * cos(lat_2) ;
+    float c = 2 * atan2(sqrt(a), sqrt(1-a));
+	float initial_distance = (float) earthRadiusKm * c * 1000; 
+	return initial_distance ;
+	}

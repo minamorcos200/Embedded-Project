@@ -1,0 +1,8 @@
+
+		char UART_InChar(void) { 
+if ((UART0_FR_R&0X0010) != 0 ){} ;
+return(UART0_DR_R&0XFF);
+}			
+ int char_to_int (char c ){
+return c - '0';
+}

@@ -23,5 +23,5 @@ SYSCTL_RCGCUART_R |=0x0020;    // ACTIVATE UART5
     delay_ms(50);
     LCD_command(0x01);
     delay_ms(25);
-
+}
 

@@ -1,26 +1,24 @@
-void LCDcalling(int dist){
-  int UnitDigit = dist % 10;
-		int TensDigit = (dist - UnitDigit)/10;
-int HundredDigit=(int)Math.Abs(number/100%10);
-char unit = (char) UnitDigit;
-char tens = (char) TensDigit;
-char hundred = (char) HundredDigit; 
-        LCD_cmd(0X30);  //wake up call
-        //udelay(40);
-        delayLCD(10);
-        LCD_cmd(0X38);  //8-bit bus mode, 2 line display mode, 5x8 dots display mode
-        delayLCD(40);
-        LCD_cmd(0X01);  //clear display
-        delayLCD(40);
-        //udelay(40);
-        LCD_cmd(0X0F);  //diplay is on
-        delayLCD(40);
-        LCD_cmd(0X80);  //First line
+void SystemInit(){}
+void Get_Data();
+double distance;
+double Dis;
+unsigned char c;
+int num[10];
+double LAT= 0;
+double LON = 0;
+int flag = 0;
+char longitudeIs[20],latitudeIs[20];
+char dist[20];
 
-				 dataLCD(hundred);
-				 delayLCD(500);
-				 dataLCD(tens);
-                                 delayLCD(100);
-                                 dataLCD(unit);
-                                 delayLCD(500);
+double pastlat=0;
+double pastlon=0;
+
+void LCD_separating_double(double deci)
+{
+    int integer_part=deci;
+    int decimal_part=(deci - integer_part)*100000;
+
+    LCD_int(integer_part);
+    LCD_data('.');
+    LCD_int(decimal_part);
 }

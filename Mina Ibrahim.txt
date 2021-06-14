@@ -1,81 +1,54 @@
- void ParseNMEAline(){
-int m=0;
-		  int x,z; 
+ void Get_Data(){
+    int check = 0;
+    char GPS_values[100],*token,parseValue[12][20];
+    double latitude=0.0,longitude=0.0,seconds=0.0,minutes=0.0,Lat=0.0,Lon=0.0;
+    char m0,m1,m2,m3,m4,m5,m6,m7;
+    const char comma[2] = ",";
 
-	for (int i=0 ; i<8 ; i++ ){
-		for( int j=0;j<100 ;j++){
-			 char character=UART_InChar(); // input function
-			if (m!=0) {
-				j=1;
-				m=0;
-			}
-			if (character!='$'|| j==0){
-				y[i][j]=character;
-				}
-			else if (character=='$'&& j!=0 ){
-				y[i+1][0]= '$';
-				j=80 ;
-				m=1;
-				}
-			}
-		}
-	
-	for (int i=0 ; i<8 ; i++ ){
-		if ( y[i][3]== 'G' && y[i][4]=='G' && y[i][5]=='A'){ 
-				int comma = 0;
-			for (int j = 0; j < 80; j++){
-				if (y[i][j] == ','){
-					comma = comma + 1;
-					if (comma == 2){
-						
-						int  LAT_Coordinates = char_to_int(y[i][j + 1]);
-						LAT_Coordinates = 10 * LAT_Coordinates;
-						int   LAT_Units = char_to_int(y[i][j + 2]);
-						double  LAT_degree = LAT_Coordinates + LAT_Units;
-						LAT_Coordinates = char_to_int(y[i][j + 3]);
-						LAT_Coordinates = 10 * LAT_Coordinates;
-						LAT_Units = char_to_int(y[i][j + 4]);
-					double  LAT_Minutes = LAT_Coordinates + LAT_Units;
-						int p = 0;
-						for (int k = j + 6; k < 50; k++) {
-							if (y[i][k] != ',') {
-								uint16_t dec = char_to_int(y[i][k]);
-								double Ten_pow = pow(10, p = p - 1);
-								LAT_Minutes += (dec*Ten_pow);
-							}
-							else break;
-						}
-					}
-					if (comma == 4){
-						int LONG_Coordinates = char_to_int(y[i][j + 1]);
-						int LONG_Hundreds = 100 * LONG_Coordinates;
-						LONG_Coordinates += char_to_int(y[i][j + 2]);
-						int LONG_Tens = 10 * LONG_Coordinates;
-						int  LONG_Units = char_to_int(y[i][j + 3]);
-							double LONG_Degree = LONG_Hundreds + LONG_Tens + LONG_Units;
-						LONG_Coordinates = char_to_int(y[i][j + 4]);
-						int LONG_Minutes_Tens = 10 * LONG_Coordinates;
-						int LONG_Minutes_Units = char_to_int(y[i][j + 5]);
-						double	LONG_Minutes = LONG_Minutes_Tens + LONG_Minutes_Units;
-						int p = 0;
-						for (int k = j + 7; k < 50; k++) {
-							if (y[i][k] != ',') {
-								uint16_t dec = char_to_int(y[i][k]);
-								double Ten_pow = pow(10, p = p - 1);
-								LONG_Minutes += (dec*Ten_pow);
-							}
-							else break;
-						}
-					}
-					if (comma == 6){
-						if (y[i][j + 1] == 'A')
-						{
-							 LAT = Angle_Conv( LAT_Degree, LAT_Minutes); // from DMS to decimal
-							 LONG = Angle_Conv( LONG_Degree, LONG_Minutes);
 
-							}
-						}
-					}
-				}
-		}
-	}
+
+    int index=0,degrees;
+    start:
+    //is the incoming data is $GPRMC?
+    while((UART5_FR_R&0x0010) !=0);
+    m0 = UART5_DR_R&0xFF;
+    if(m0 =='$'){
+				while((UART5_FR_R&0x0010) !=0);
+				m1 = UART5_DR_R &0xFF;
+					if(m1 == 'G'){
+								while((UART5_FR_R&0x0010) !=0);
+								m2 = UART5_DR_R&0xFF;
+								if(m2 == 'P'){
+										while((UART5_FR_R&0x0010) !=0);
+										m3 = UART5_DR_R&0xFF;
+										if(m3 == 'R'){
+												while((UART5_FR_R&0x0010) !=0);
+												m4 = UART5_DR_R&0xFF;
+												if(m4 == 'M'){
+														while((UART5_FR_R&0x0010) !=0);
+														m5 = UART5_DR_R&0xFF;
+														if(m5 == 'C'){
+																while((UART5_FR_R&0x0010) !=0);
+																m6 = UART5_DR_R&0xFF;
+
+																if(m6 == ','){
+																		while((UART5_FR_R&0x0010) !=0);
+																		m7 = UART5_DR_R&0xFF;
+
+																		//assign the data to the GPSValues array. read up to the last data checksum (like checksum: A*60)
+																		while(m7 !='*'){
+																				GPS_values[index] = m7; //20
+																				while((UART5_FR_R&0x0010) !=0);
+																				m7 = UART5_DR_R&0xFF;
+																				index++;
+																		}
+																		//Separating the data in the GPSValues array by comma
+																		index = 0;
+																		token = strtok(GPS_values,comma);
+																		while( token != NULL ) {
+																				strcpy(parseValue[index], token);
+																				token = strtok(NULL,comma);
+																				index++;}
+
+																		//Data valid if parseValue[1] = A - not valid if =V
+																		

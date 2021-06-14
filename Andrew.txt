@@ -1,18 +1,27 @@
 void UART_Init(void) {
-SYSCTL_RCGCUART_R |= 0X00000004; // UART2 active 
-SYSCTL_RCGCGPIO_R |= 0X00000008 ; // activate port D
-while ( (SYSCTL_PRGPIO_R & 0x08) ==0);
-GPIO_PORTD_LOCK_R= 0x4C4F434B;
-GPIO_PORTD_CR_R	= 0xC0;	
-UART2_CTL_R &= ~0X00000004 ; 
-UART2_IBRD_R = 104 ;
-UART2_FBRD_R = 11 ;
-UART2_LCRH_R = 0X00000070 ; 
-UART2_CTL_R = 0X00000004 ;
-GPIO_PORTD_AFSEL_R |= 0XC0 ; 
-GPIO_PORTD_DEN_R |= 0XC0 ;
-GPIO_PORTD_PCTL_R = (GPIO_PORTA_PCTL_R&0X00FFFFFF)+0X11000000;
-GPIO_PORTD_AMSEL_R &= ~0XC0 ; 
-GPIO_PORTD_PUR_R = 0;
-			
-}
+SYSCTL_RCGCUART_R |=0x0020;    // ACTIVATE UART5
+     SYSCTL_RCGCGPIO_R |=0x0010;    // enable the clock of port E4,5
+    GPIO_PORTE_LOCK_R=0x4C4F434B;
+    GPIO_PORTD_CR_R = 0x03;	
+	UART5_CTL_R &=~(0x01);
+     UART5_IBRD_R =104;
+     UART5_FBRD_R =11;
+     UART5_LCRH_R |=0x0070;
+     UART5_CTL_R |=0X0301;
+     GPIO_PORTE_DEN_R |=0x0030;      // D    E4,5
+     GPIO_PORTE_AMSEL_R &=~0x0030;       //  D
+     GPIO_PORTE_AFSEL_R |=0x0030;
+      GPIO_PORTE_PCTL_R =(GPIO_PORTE_PCTL_R&0xFF00FFFF)+0x00110000;           // working I/O ports OR UART
+
+
+    delay_ms(20);
+    LCD_command(0x38);
+    delay_us(50);
+    LCD_command(0x0F);
+    delay_ms(50);
+    LCD_command(0x06);
+    delay_ms(50);
+    LCD_command(0x01);
+    delay_ms(25);
+
+

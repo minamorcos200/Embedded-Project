@@ -1,6 +1,0 @@
-double Angle_Conv(int degrees, double minutes){
-	minutes = minutes * 100/60;
-	return minutes + degrees;
-}
-float degreesToRadians(double degrees){
-   return (degrees * 22/(180*7));

@@ -1,0 +1,53 @@
+if(strcmp(parseValue[1],"A")==0){
+ 
+ check = 1;
+ latitude=atof(parseValue[2]);
+ longitude=atof(parseValue[4]);
+
+																				
+																				
+ //latitude calculation
+ degrees=latitude/100;
+ minutes=latitude-(double)(degrees*100);
+ seconds=minutes/60.00;
+ Lat=degrees+seconds;
+
+ sprintf(latitudeIs,"%f", Lat);
+ 
+ //print("%s\n",latitudeIs);
+
+ //longitude calculation
+   degrees=longitude/100;
+   minutes=longitude-(double)(degrees*100);
+   seconds=minutes/60.00;
+   Lon=degrees+seconds;
+
+   sprintf(longitudeIs,"%f",Lon);
+
+   LAT = Lat;
+   LON= Lon;
+
+
+     printf("lat = %s\n",latitudeIs);
+		printf("lon = %s\n\n\n",longitudeIs);
+			// LCD_command(0x01);
+			// LCD_string(longitudeIs);
+	
+	
+	}
+
+
+		else{
+
+		printf("\Error\n");
+
+		}
+		 }
+		  }
+		   }
+			}
+			 }
+			  }
+				    }
+    if (check == 0) { goto start; }
+}

@@ -2,7 +2,7 @@ void UART_Init(void) {
 SYSCTL_RCGCUART_R |=0x0020;    // ACTIVATE UART5
      SYSCTL_RCGCGPIO_R |=0x0010;    // enable the clock of port E4,5
     GPIO_PORTE_LOCK_R=0x4C4F434B;
-    GPIO_PORTD_CR_R = 0x03;	
+    GPIO_PORTE_CR_R = 0x30;	
 	UART5_CTL_R &=~(0x01);
      UART5_IBRD_R =104;
      UART5_FBRD_R =11;

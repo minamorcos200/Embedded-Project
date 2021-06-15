@@ -8,12 +8,12 @@
 #define PI 3.14159265
 #define R 6371000
 
-void LCD_string(char *str) // to print string (pointer to elements of array of char)
+void LCD_string(char *str) 
 {
     int i;
-    for(i=0;str[i]!=0;i++)  /* Send each char of string  */
+    for(i=0;str[i]!=0;i++)  
     {
-        LCD_data(str[i]);  /* Call LCD data write */
+        LCD_data(str[i]);  
         delay_ms(20);
     }
 }

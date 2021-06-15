@@ -6,7 +6,7 @@ if(strcmp(parseValue[1],"A")==0){
 
 																				
 																				
- //latitude calculation
+ //to get the latitude 
  degrees=latitude/100;
  minutes=latitude-(double)(degrees*100);
  seconds=minutes/60.00;
@@ -16,7 +16,7 @@ if(strcmp(parseValue[1],"A")==0){
  
  //print("%s\n",latitudeIs);
 
- //longitude calculation
+ //to get longitude & and save the 2 values
    degrees=longitude/100;
    minutes=longitude-(double)(degrees*100);
    seconds=minutes/60.00;

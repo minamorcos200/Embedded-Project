@@ -1,32 +1,27 @@
 void LCD_cmd(unsigned char cmd) {
 
-GPIO_PORTA_DATA_R &= ~(0xE0) ; // disable RS , Enable , RW
+GPIO_PORTA_DATA_R &= ~(0xE0) ; 
 GPIO_PORTB_DATA_R = cmd ;
-GPIO_PORTA_DATA_R |= 0x40 ; // Enable on
+GPIO_PORTA_DATA_R |= 0x40 ; 
 delayLCD(10) ;
-GPIO_PORTA_DATA_R &= ~(0xE0) ; // Enable off
+GPIO_PORTA_DATA_R &= ~(0xE0) ; 
 delayLCD(10) ;
-	//PA7 -- > RS
-//PA6 -- > E
-//PA5 -- > RW
-//PDn --> Dn
-
-
+	
 }
 
 void dataLCD(unsigned char data) {
-	GPIO_PORTA_DATA_R |= 0x80  ; //Enable RS
-	GPIO_PORTA_DATA_R &= ~(0x60); // disable Enable , RW
+	GPIO_PORTA_DATA_R |= 0x80  ; 
+	GPIO_PORTA_DATA_R &= ~(0x60); 
 	GPIO_PORTB_DATA_R = data;
-	GPIO_PORTA_DATA_R |= 0x40; // Enable on
+	GPIO_PORTA_DATA_R |= 0x40; 
 		delayLCD(10) ;
-	GPIO_PORTA_DATA_R &= ~(0x60) ; // Enable off
+	GPIO_PORTA_DATA_R &= ~(0x60) ; 
 		delayLCD(10) ;
 }
 
 
 void initializationLCD() {
-	SYSCTL_RCGCGPIO_R |= 0x2B ; // Initialize all clocks for ports A,B,D, and F
+	SYSCTL_RCGCGPIO_R |= 0x2B ; 
 	while( (SYSCTL_PRGPIO_R & 0x2B) == 0 ){
 	}
 

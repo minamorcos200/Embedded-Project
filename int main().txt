@@ -1,56 +1,42 @@
 int main()
 {
-    SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) );
-
-    init();
-
-    while(1)
-    {
-
-        if(distance<100){
-
-        Get_Data();
-								//LCD_command(0xC0);
-							// LCD_string(latitudeIs);																			
-				if(flag == 0) flag = 1;
-		  		else
-					distance += total_Dist(pastlon, LON, pastlat,LAT);
-			  	pastlat = LAT;
-				  pastlon = LON;
-					sprintf(dist,"%f",distance);
-					LCD_command(0x01);
-					LCD_string(dist);
-					delay_ms(1000);
-		}
-
-
-        if (distance>=100)
-           {
-                        GPIO_PORTF_DATA_R=0x02;
-                         }
-                    else
-          {
-                  GPIO_PORTF_DATA_R=0;
-              }
-
-    }
-
+SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) );
+init();
+while(1)
+{
+if(distance<100){
+Get_Data();
+if(flag == 0) flag = 1;
+else
+distance += total_Dist(pastlon, LON, pastlat,LAT);
+pastlat = LAT;
+pastlon = LON;
+sprintf(dist,"%f",distance);
+LCD_command(0x01);
+LCD_string(dist);
+delay_ms(1000);
 }
-// To convert from degrees to radian
+if (distance>=100)
+{
+GPIO_PORTF_DATA_R=0x02;
+}
+else
+{
+GPIO_PORTF_DATA_R=0;
+}
+}
+}
 float deg_to_rad(float deg){
-    return (deg * PI / 180);
+return (deg * PI / 180);
 }
-
-// Measuring the distance by longitude and latitude
 float total_Dist(float long1, float long2, float lat1, float lat2)
 {
-    float dlong = deg_to_rad(long2 - long1);
-    float dlat  = deg_to_rad(lat2 - lat1);
-    float phi1 = deg_to_rad(lat1);
-    float phi2 = deg_to_rad(lat2);
-    // Haversine formula
-    float a = pow(sin((0.5 * dlat)), 2) + cos(phi1) * cos(phi2) * pow(sin((0.5 * dlong)), 2);
-    float d = 2 * R * asin(sqrt(a));
-    Dis = Dis + d;
-    return Dis;
+float dlong = deg_to_rad(long2 - long1);
+float dlat  = deg_to_rad(lat2 - lat1);
+float phi1 = deg_to_rad(lat1);
+float phi2 = deg_to_rad(lat2);
+float a = pow(sin((0.5 * dlat)), 2) + cos(phi1) * cos(phi2) * pow(sin((0.5 * dlong)), 2);
+float d = 2 * R * asin(sqrt(a));
+Dis = Dis + d;
+return Dis;
 }

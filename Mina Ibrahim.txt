@@ -9,7 +9,6 @@
 
     int index=0,degrees;
     start:
-    //is the incoming data is $GPRMC?
     while((UART5_FR_R&0x0010) !=0);
     m0 = UART5_DR_R&0xFF;
     if(m0 =='$'){
@@ -35,14 +34,14 @@
 																		while((UART5_FR_R&0x0010) !=0);
 																		m7 = UART5_DR_R&0xFF;
 
-																		//assign the data to the GPSValues array. read up to the last data checksum (like checksum: A*60)
+																		 GPSValues array. read up to the last data checksum (like checksum: A*60)
 																		while(m7 !='*'){
-																				GPS_values[index] = m7; //20
+																				GPS_values[index] = m7; 
 																				while((UART5_FR_R&0x0010) !=0);
 																				m7 = UART5_DR_R&0xFF;
 																				index++;
 																		}
-																		//Separating the data in the GPSValues array by comma
+																		
 																		index = 0;
 																		token = strtok(GPS_values,comma);
 																		while( token != NULL ) {
